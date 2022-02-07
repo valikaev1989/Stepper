@@ -1,23 +1,20 @@
 public class Converter {
-    int lengthStep;
-    int calBurnedForOneStep;
-    int Kcal;
-    int calories;
+    private static int lengthStep;
+    private static int calBurnedForOneStep;
+    private static int kcal;
 
-    Converter() {
-        lengthStep = 75;
-        calories = 1;
-        calBurnedForOneStep = calories * 50;
-        Kcal = 1000 * calories;
+
+    public Converter(int lengthStep, int calBurnedForOneStep, int kcal) {
+        Converter.lengthStep = lengthStep;
+        Converter.calBurnedForOneStep = calBurnedForOneStep;
+        Converter.kcal = kcal;
     }
 
-     void thePathTraveled(float steps) {
-         String cut = String.format("%.02f", (lengthStep * steps) / 100000);
-        System.out.println("За месяц вы прошли: " + cut + " километров");
+    public double getPathTraveled(int sumSteps) {
+        return (double) (lengthStep * sumSteps) / 100000;
     }
 
-    void calBurned(float steps) {
-        String cut = String.format("%.02f", (steps * calBurnedForOneStep) / Kcal);
-        System.out.println("За месяц вы сожгли: " + cut + " калорий");
+    public double getCalBurned(int sumSteps) {
+        return (double) (sumSteps * calBurnedForOneStep) / kcal;
     }
 }
