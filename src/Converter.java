@@ -1,20 +1,19 @@
 public class Converter {
-    private static int lengthStep;
-    private static int calBurnedForOneStep;
-    private static int kcal;
-
+    private final int LENGTH_STEP;
+    private final int CAL_BURNED_FOR_ONE_STEP;
+    private final int K_CAL;
 
     public Converter(int lengthStep, int calBurnedForOneStep, int kcal) {
-        Converter.lengthStep = lengthStep;
-        Converter.calBurnedForOneStep = calBurnedForOneStep;
-        Converter.kcal = kcal;
+        this.LENGTH_STEP = lengthStep;
+        this.CAL_BURNED_FOR_ONE_STEP = calBurnedForOneStep;
+        this.K_CAL = kcal;
     }
 
     public double getPathTraveled(int sumSteps) {
-        return (double) (lengthStep * sumSteps) / 100000;
+        return (double) (LENGTH_STEP * sumSteps) / 100000;
     }
 
     public double getCalBurned(int sumSteps) {
-        return (double) (sumSteps * calBurnedForOneStep) / kcal;
+        return (double) (sumSteps * CAL_BURNED_FOR_ONE_STEP) / K_CAL;
     }
 }

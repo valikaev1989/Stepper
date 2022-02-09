@@ -1,10 +1,11 @@
 public class PrintStatistics {
-    static Converter converter = new Converter(75, 50, 1000);
+    Converter converter = new Converter(75, 50, 1000);
+    StepTracker stepTracker = new StepTracker();
 
     public PrintStatistics() {
     }
 
-    public static void printAllStatistics(int month) {
+    public void printAllStatistics(int month) {
         System.out.println("Статистика за месяц №" + month + ":");
         printTotalNumberSteps(month);
         printMaxStepsInMonth(month);
@@ -14,34 +15,33 @@ public class PrintStatistics {
         printBestSeries(month);
     }
 
-    public static void printTotalNumberSteps(int month) {
-        StepTracker.MonthData monthData = StepTracker.monthToData.get(month);
-        for (int i = 0; i < monthData.dataAndSteps.length; i++) {
-            System.out.println((i + 1) + " день: " + monthData.dataAndSteps[i] + " шагов");
+    private void printTotalNumberSteps(int month) {
+        for (int i = 0; i < stepTracker.getTotalNumberSteps(month).length; i++) {
+            System.out.println((i + 1) + " день: " + stepTracker.getTotalNumberSteps(month)[i] + " шагов");
         }
     }
 
-    public static void printMaxStepsInMonth(int month) {
-        System.out.println("Ваш рекорд по шагам в этом месяце был: " + StepTracker.getMaxStepsInMonth(month));
+    private void printMaxStepsInMonth(int month) {
+        System.out.println("Ваш рекорд по шагам в этом месяце был: " + stepTracker.getMaxStepsInMonth(month));
     }
 
-    public static void printAverageValueOfSteps(int month) {
-        String cut = String.format("%.02f", StepTracker.getAverageValueOfSteps(month));
+    private void printAverageValueOfSteps(int month) {
+        String cut = String.format("%.02f", stepTracker.getAverageValueOfSteps(month));
         System.out.println("Среднее количество шагов за месяц: " + cut);
     }
 
-    public static void printCalBurned(int month) {
-        String cut = String.format("%.02f", converter.getCalBurned(StepTracker.getSumStepsOfMonth(month)));
+    private void printCalBurned(int month) {
+        String cut = String.format("%.02f", converter.getCalBurned(stepTracker.getSumStepsOfMonth(month)));
         System.out.println("За месяц вы сожгли: " + cut + " калорий");
     }
 
-    public static void printPathTraveled(int month) {
-        String cut = String.format("%.02f", converter.getPathTraveled(StepTracker.getSumStepsOfMonth(month)));
+    private void printPathTraveled(int month) {
+        String cut = String.format("%.02f", converter.getPathTraveled(stepTracker.getSumStepsOfMonth(month)));
         System.out.println("За месяц вы прошли: " + cut + " километров");
     }
 
-    public static void printBestSeries(int month) {
-        int bestSeries = StepTracker.getBestSeries(month);
+    private void printBestSeries(int month) {
+        int bestSeries = stepTracker.getBestSeries(month);
         if (bestSeries == 1) {
             System.out.println("Всего " + bestSeries + " раз Вы смогли достичь цели в этом месяце");
         } else if (bestSeries == 0) {

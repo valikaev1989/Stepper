@@ -1,23 +1,39 @@
 import java.util.HashMap;
 
 public class StepTracker {
-    static int PurposeForSteps = 10000;
-    static HashMap<Integer, MonthData> monthToData = new HashMap<>();
+    private static int purposeForSteps = 10000; // без static переменная остается не изменной
+    private static final HashMap<Integer, MonthData> monthToData = new HashMap<>();
 
     public StepTracker() {
         for (int i = 1; i < 13; i++)
             monthToData.put(i, new MonthData());
     }
 
-    public void setNewPurposeForSteps(int newPurpose) {
-        PurposeForSteps = newPurpose;
+    public int setNewPurposeForSteps(int newPurpose) {
+        purposeForSteps = newPurpose;
+        return purposeForSteps;
     }
 
-    public static int getNewStepsForDay(int month, int data, int steps) {
+    public int setOldPurposeForSteps() {
+        return purposeForSteps;
+    }
+
+    public boolean checkMonth(int month) {
+        return monthToData.containsKey(month);
+    }
+
+    public int getNewStepsForDay(int month, int data, int steps) {
         return monthToData.get(month).addData(data, steps);
     }
 
-    public static int getMaxStepsInMonth(int month) {
+    public int[] getTotalNumberSteps(int month) {
+        MonthData monthData = monthToData.get(month);
+        int[] x = new int[30];
+        System.arraycopy(monthData.dataAndSteps, 0, x, 0, monthData.dataAndSteps.length);
+        return x;
+    }
+
+    public int getMaxStepsInMonth(int month) {
         int maxSteps = 0;
         MonthData monthData = monthToData.get(month);
         for (int i = 0; i < monthData.dataAndSteps.length; i++) {
@@ -28,7 +44,7 @@ public class StepTracker {
         return maxSteps;
     }
 
-    public static double getAverageValueOfSteps(int month) {
+    public double getAverageValueOfSteps(int month) {
         double averageSteps = 0;
         MonthData monthData = monthToData.get(month);
         for (int i = 0; i < monthData.dataAndSteps.length; i++) {
@@ -38,7 +54,7 @@ public class StepTracker {
         return averageSteps;
     }
 
-    public static int getSumStepsOfMonth(int month) {
+    public int getSumStepsOfMonth(int month) {
         int sumSteps = 0;
         MonthData monthData = monthToData.get(month);
         for (int i = 0; i < monthData.dataAndSteps.length; i++) {
@@ -47,16 +63,16 @@ public class StepTracker {
         return sumSteps;
     }
 
-    public static int getBestSeries(int month) {
+    public int getBestSeries(int month) {
         int bestSeries = 0;
         int finalSeriesSteps = 0;
         int SeriesSteps = 0;
         MonthData monthData = monthToData.get(month);
         for (int i = 0; i < monthData.dataAndSteps.length; i++) {
-            if (PurposeForSteps <= monthData.dataAndSteps[i]) {
+            if (purposeForSteps <= monthData.dataAndSteps[i]) {
                 bestSeries += 1;
                 SeriesSteps = bestSeries;
-            } else if (PurposeForSteps > monthData.dataAndSteps[i]) {
+            } else if (purposeForSteps > monthData.dataAndSteps[i]) {
                 bestSeries = 0;
                 if (finalSeriesSteps < SeriesSteps) {
                     finalSeriesSteps = SeriesSteps;
@@ -66,7 +82,7 @@ public class StepTracker {
         return finalSeriesSteps;
     }
 
-    static class MonthData {
+    private static class MonthData {
         int[] dataAndSteps;
 
         private MonthData() {
